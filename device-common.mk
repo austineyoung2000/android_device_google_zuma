@@ -50,6 +50,8 @@ PRODUCT_MAX_PAGE_SIZE_SUPPORTED := 4096
 # Trigger fsck on upgrade (305658663)
 PRODUCT_PRODUCT_PROPERTIES += \
     ro.preventative_fsck = 1
+    
+TARGET_SYSTEM_PROP := device/google/zuma/system.prop
 
 # Indicate that the bootloader supports the MTE developer option switch
 # (MISC_MEMTAG_MODE_MEMTAG_ONCE), with the exception of _fullmte products that
