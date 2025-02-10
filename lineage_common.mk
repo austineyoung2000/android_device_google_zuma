@@ -47,3 +47,6 @@ PRODUCT_PACKAGES += \
 
 # Touch
 include hardware/google/pixel/touch/device.mk
+
+# RisingOS stuff
+RISING_MAINTAINER=EliteDarkKaiser
