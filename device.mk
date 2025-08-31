@@ -60,10 +60,10 @@ AB_OTA_POSTINSTALL_CONFIG += \
 POSTINSTALL_OPTIONAL_system=true
 
 # Set Vendor SPL to match platform
-VENDOR_SECURITY_PATCH := 2025-06-05
+VENDOR_SECURITY_PATCH := 2025-08-05
 
 # Set boot SPL
-BOOT_SECURITY_PATCH := 2025-06-05
+BOOT_SECURITY_PATCH := 2025-08-05
 
 # TODO(b/207450311): Remove this flag once implemented
 USE_PIXEL_GRALLOC := false
@@ -77,8 +77,6 @@ PRODUCT_SOONG_NAMESPACES += \
 	hardware/google/pixel \
 	device/google/zuma \
 	device/google/zuma/powerstats
-
-LOCAL_KERNEL := $(TARGET_KERNEL_DIR)/Image.lz4
 
 # Set the environment variable to switch the Keymint HAL service to Rust
 TRUSTY_KEYMINT_IMPL := rust
@@ -313,7 +311,6 @@ PRODUCT_ENFORCE_PRODUCT_PARTITION_INTERFACE := true
 
 # Init files
 PRODUCT_COPY_FILES += \
-	$(LOCAL_KERNEL):kernel \
 	device/google/zuma/conf/init.zuma.usb.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.zuma.usb.rc \
 	device/google/zuma/conf/ueventd.zuma.rc:$(TARGET_COPY_OUT_VENDOR)/etc/ueventd.rc
 
