@@ -17,7 +17,9 @@ include build/make/target/board/BoardConfigMainlineCommon.mk
 include build/make/target/board/BoardConfigPixelCommon.mk
 
 # Include settings for 16k developer option, if enabled
+ifneq ($(wildcard $(TARGET_KERNEL_DIR)/16kb/),)
 include device/google/zuma/BoardConfig-16k-common.mk
+endif
 
 # HACK : To fix up after bring up multimedia devices.
 TARGET_SOC := zuma
@@ -33,7 +35,6 @@ TARGET_CPU_VARIANT := cortex-a55
 
 BOARD_KERNEL_CMDLINE += earlycon=exynos4210,0x10870000 console=ttySAC0,115200 androidboot.console=ttySAC0 printk.devkmsg=on
 BOARD_KERNEL_CMDLINE += cma_sysfs.experimental=Y
-BOARD_KERNEL_CMDLINE += cgroup_disable=memory
 BOARD_KERNEL_CMDLINE += rcupdate.rcu_expedited=1 rcu_nocbs=all rcutree.enable_rcu_lazy
 BOARD_KERNEL_CMDLINE += swiotlb=1024
 BOARD_KERNEL_CMDLINE += cgroup.memory=nokmem
@@ -42,17 +43,6 @@ BOARD_KERNEL_CMDLINE += sysctl.kernel.sched_pelt_multiplier=4
 # Normal (non-_fullmte) builds should disable kasan
 ifeq (,$(filter %_fullmte,$(TARGET_PRODUCT)))
 BOARD_KERNEL_CMDLINE += kasan=off
-endif
-
-# Enable a limited subset of MTE for "normal" (non-_fullmte) eng builds.
-# Don't touch any settings for _fullmte builds. They are set somewhere else.
-ifeq (,$(filter %_fullmte,$(TARGET_PRODUCT)))
-ifeq ($(TARGET_BUILD_VARIANT),eng)
-BOARD_KERNEL_CMDLINE += bootloader.pixel.MTE_FORCE_ON
-ifeq ($(filter memtag_heap,$(SANITIZE_TARGET)),)
-SANITIZE_TARGET := $(strip $(SANITIZE_TARGET) memtag_heap)
-endif
-endif
 endif
 
 BOARD_BOOTCONFIG += androidboot.boot_devices=13200000.ufs
@@ -261,12 +251,6 @@ BOARD_USES_GENERIC_AUDIO := true
 
 $(call soong_config_set,aoc_audio_func,ext_hidl,true)
 
-ifneq (,$(filter eng, $(TARGET_BUILD_VARIANT)))
-$(call soong_config_set,aoc_audio_func,dump_usecase_data,true)
-$(call soong_config_set,aoc_audio_func,hal_socket_control,true)
-$(call soong_config_set,aoc_audio_func,record_tuning_keys,true)
-endif
-
 ifneq (,$(filter aosp_%,$(TARGET_PRODUCT)))
 $(call soong_config_set,aoc_audio_func,aosp_build,true)
 endif
@@ -455,8 +439,5 @@ BOARD_KERNEL_CMDLINE += log_buf_len=1024K
 
 # Protected VM firmware
 BOARD_PVMFWIMAGE_PARTITION_SIZE := 0x00100000
-
-# pick up library for cleaning digital car keys on factory reset
--include vendor/google_devices/gs-common/proprietary/BoardConfigVendor.mk
 
 include device/google/zuma/BoardConfigLineage.mk
