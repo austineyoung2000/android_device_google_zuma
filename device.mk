@@ -670,6 +670,9 @@ DEVICE_MATRIX_FILE += \
 DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += \
     device/google/zuma/vintf/device_framework_matrix_product.xml
 
+# BCR Call Recording
+$(call inherit-product-if-exists, vendor/bcr/bcr.mk)
+
 # Google Camera
 $(call inherit-product-if-exists, vendor/google/camera/camera.mk)
 
