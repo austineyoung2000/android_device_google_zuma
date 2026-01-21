@@ -672,3 +672,6 @@ DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += \
 
 # Google Camera
 $(call inherit-product-if-exists, vendor/google/camera/camera.mk)
+
+# Google Face Unlock
+$(call inherit-product-if-exists, vendor/google/faceunlock/config.mk)
