@@ -670,6 +670,12 @@ DEVICE_MATRIX_FILE += \
 DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += \
     device/google/zuma/vintf/device_framework_matrix_product.xml
 
+# Enables Google Face Unlock (GFU)
+TARGET_SUPPORTS_GFU := true
+
+# Device Supports Face Unlock
+TARGET_FACE_UNLOCK_SUPPORTED := true
+
 # BCR Call Recording
 $(call inherit-product-if-exists, vendor/bcr/bcr.mk)
 
@@ -678,6 +684,3 @@ DISABLE_ARTIFACT_PATH_REQUIREMENTS := true
 
 # Google Camera
 $(call inherit-product-if-exists, vendor/google/camera/camera.mk)
-
-# Google Face Unlock
-$(call inherit-product-if-exists, vendor/google/faceunlock/config.mk)
